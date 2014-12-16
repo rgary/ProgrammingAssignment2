@@ -1,3 +1,7 @@
+## Copyright 2014 R. Gary Cutbill. 
+## Based on the outline by rdpeng found in https://github.com/rdpeng/ProgrammingAssignment2
+## 
+##
 ## This function defines two global functions to implement the requirements
 ## of Programming Assignment 2. 
 ##
@@ -40,11 +44,10 @@ makeCacheMatrix <- function(x = matrix()) {
   
   # if matrix has actually changed, store the new value and invalidate the cache
   changeMatrix <- function(y) {
-    if (identical(cached_x,y)) {
-      return
+    if (!identical(cached_x,y)) {
+      cached_x <<- x
+      cached_inv <<- NULL  # toss the old invers
     }
-    cached_x <<- x
-    cached_inv <<- NULL  # toss the old invers
   }
   
   getCachedMatrix <- function(...) { # Return cached_x, might be NULL.
@@ -60,7 +63,7 @@ makeCacheMatrix <- function(x = matrix()) {
   }
   
   # Return a list of the created functions
-  list(setMatrix=setMatrix, 
+  list(changeMatrix=changeMatrix, 
        getCachedMatrix=getCachedMatrix, 
        setCachedInv=setCachedInv, 
        getCachedInv=getCachedInv)
